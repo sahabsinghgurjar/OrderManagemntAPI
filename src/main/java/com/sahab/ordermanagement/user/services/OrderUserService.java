@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sahab.ordermanagement.user.model.OrderUser;
+import com.sahab.ordermanagement.user.model.OrderUserEntity;
 import com.sahab.ordermanagement.user.repo.OrderUserRepo;
 
 @Service
@@ -25,6 +26,18 @@ public class OrderUserService {
 			orderUser.setLastName(userEntity.getLastName());
 			return orderUser;
 		}).collect(Collectors.toList());
+	}
+
+	public void reisterUser(OrderUser user) {
+		OrderUserEntity userEntity=new  OrderUserEntity();
+		userEntity.setAddress(user.getAddress());
+		userEntity.setEmail(user.getEmail());
+		userEntity.setFirstName(user.getFirstName());
+		userEntity.setLastName(user.getLastName());
+		userEntity.setPhone(user.getPhone());
+		userEntity.setUserId(user.getUserId());
+		userRepo.save(userEntity);
+		
 	}
 
 }
