@@ -1,8 +1,12 @@
 package com.sahab.ordermanagement.config;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.JwtAccessTokenConverterConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -19,6 +23,7 @@ public class JWTConverter extends DefaultAccessTokenConverter implements JwtAcce
 
 	@Override
 	public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
+		
 		OAuth2Authentication auth = super.extractAuthentication(map);
 		AccessTokenDetails details = new AccessTokenDetails();
 		try {
@@ -29,6 +34,11 @@ public class JWTConverter extends DefaultAccessTokenConverter implements JwtAcce
 			ex.printStackTrace();
 		}
 		auth.setDetails(details);
+		if(map.containsKey("groups")){
+		String[] roles = ((Collection<String>)map.get("groups")).toArray(new String[0]);
+		Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles);
+		auth.getAuthorities().addAll(authorities);
+		}
 		return auth;
 	}
 }

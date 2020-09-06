@@ -1,5 +1,7 @@
 package com.sahab.ordermanagement.config;
 
+import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,5 +21,10 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.anonymous().and().authorizeRequests().and().authorizeRequests().anyRequest().authenticated().and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+	}
+
+	@Bean
+	public AuthoritiesExtractor authoritiesExtractor() {
+		return new CustomAuthoritiesExtractor();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class UserResource {
 	}
 
 	@PostMapping("/register")
+	@PreAuthorize("hasRole('admin')")
 	public ResponseEntity<String> registerUser(@RequestBody OrderUser user) {
 		try {
 			orderUserService.reisterUser(user);
@@ -46,6 +48,7 @@ public class UserResource {
 	}
 
 	@PutMapping("/update")
+	@PreAuthorize("hasRole('admin')|| #oauth2.hasScope('admin')")
 	public ResponseEntity<String> updateUser(@RequestBody OrderUser user) {
 		try {
 			orderUserService.updateUser(user);
@@ -57,6 +60,7 @@ public class UserResource {
 	}
 
 	@PutMapping("/delete")
+	@PreAuthorize("hasRole('admin')")
 	public ResponseEntity<String> deleteUser(@RequestBody OrderUser user) {
 		try {
 			orderUserService.deleteUser(user.getUserId());
