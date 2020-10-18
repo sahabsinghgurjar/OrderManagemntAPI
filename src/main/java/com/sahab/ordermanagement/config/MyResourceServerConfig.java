@@ -19,7 +19,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.anonymous().and().authorizeRequests().and().authorizeRequests().anyRequest().authenticated().and()
+		http.anonymous().and().authorizeRequests().antMatchers("/ping**","/ping","/user/ping**").permitAll().and().authorizeRequests().anyRequest().authenticated().and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
 

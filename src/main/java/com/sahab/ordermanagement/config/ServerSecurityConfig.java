@@ -14,7 +14,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.anonymous().and().authorizeRequests().antMatchers("/ping**").permitAll().and().authorizeRequests()
+		http.anonymous().and().authorizeRequests().antMatchers("/ping**","/ping","/user/ping**").permitAll().and().authorizeRequests()
 				.anyRequest().authenticated().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
